@@ -275,7 +275,7 @@ corresponding Unix manual entries for more information on calls.");
 #  include <sys/sendfile.h>
 #endif
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) && __has_include(<copyfile.h>)
 #  include <copyfile.h>
 #endif
 
@@ -3259,7 +3259,7 @@ os_ttyname_impl(PyObject *module, int fd)
     if (buffer == NULL) {
         return PyErr_NoMemory();
     }
-    int ret = ttyname_r(fd, buffer, size);
+    int ret = (int)ttyname_r(fd, buffer, size);
     if (ret != 0) {
         PyMem_RawFree(buffer);
         errno = ret;
@@ -11137,7 +11137,7 @@ done:
 #endif /* HAVE_SENDFILE */
 
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) && __has_include(<copyfile.h>)
 /*[clinic input]
 os._fcopyfile
 
@@ -16705,7 +16705,7 @@ all_ins(PyObject *m)
 #endif
 #endif  /* HAVE_EVENTFD && EFD_CLOEXEC */
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) && __has_include(<copyfile.h>)
     if (PyModule_AddIntConstant(m, "_COPYFILE_DATA", COPYFILE_DATA)) return -1;
     if (PyModule_AddIntConstant(m, "_COPYFILE_STAT", COPYFILE_STAT)) return -1;
     if (PyModule_AddIntConstant(m, "_COPYFILE_ACL", COPYFILE_ACL)) return -1;
