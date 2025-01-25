@@ -3259,7 +3259,7 @@ os_ttyname_impl(PyObject *module, int fd)
     if (buffer == NULL) {
         return PyErr_NoMemory();
     }
-    int ret = ttyname_r(fd, buffer, size);
+    int ret = (int)ttyname_r(fd, buffer, size);
     if (ret != 0) {
         PyMem_RawFree(buffer);
         errno = ret;

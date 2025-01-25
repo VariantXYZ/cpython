@@ -4335,6 +4335,9 @@ if test "$cross_compiling" = yes; then
 	*-*-cygwin*)
 		_host_cpu=
 		;;
+       *-*-darwin*)
+               _host_cpu=$host_cpu
+               ;;
 	*-*-vxworks*)
 		_host_cpu=$host_cpu
 		;;

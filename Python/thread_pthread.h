@@ -331,7 +331,11 @@ PyThread_get_thread_native_id(void)
         PyThread_init_thread();
 #ifdef __APPLE__
     uint64_t native_id;
-    (void) pthread_threadid_np(NULL, &native_id);
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1060
+   native_id = pthread_mach_thread_np(pthread_self());
+#else
+   (void) pthread_threadid_np(NULL, &native_id);
+#endif
 #elif defined(__linux__)
     pid_t native_id;
     native_id = syscall(SYS_gettid);
